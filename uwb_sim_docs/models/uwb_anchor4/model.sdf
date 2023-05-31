@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<sdf version="1.4">
+  <model name="uwb_anchor4">
+      <pose>0 -5 2 0 0 0</pose>
+      <static>1</static>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.2 0.2 0.2</size>
+            </box>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+</sdf>
