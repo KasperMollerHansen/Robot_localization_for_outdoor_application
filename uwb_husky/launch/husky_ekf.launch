@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <remap from="/odometry/filtered" to="/odometry/uwb"/>
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_odom" clear_params="true"/>
+    <rosparam command="load" file="$(find uwb_husky)/husky_sensor_fusion/husky_ekf.yaml"/>
+  
+</launch>

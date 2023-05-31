@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="world_name" default="worlds/UWB.world"/>
+
+  <include file="$(find gazebo_ros)/launch/UWB.launch">
+    <arg name="world_name" value="$(arg world_name)"/> <!-- world_name is wrt GAZEBO_RESOURCE_PATH environment variable -->
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+    
+  </include>
+  
+  <include file="$(find husky_gazebo)/launch/spawn_husky.launch">
+  </include>
+
+  <include file="$(find uwb_husky)/launch/husky_ekf.launch">
+  </include>
+  <include file="$(find uwb_husky)/launch/navsat_transform.launch">
+  </include>
+  
+  <node pkg="uwb_husky" type="uwb_pozyx.py" name="uwb_pozyx"/>
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_world_broadcaster" args="0 0 0 0 0 0 1 map world" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_uwb_estimate_broadcaster" args="0 0 0 0 0 0 1 map uwb_estimate" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="uwb_estimate_odom_broadcaster" args="0 0 0 0 0 0 1 uwb_estimate odom" />
+
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_uwb0_broadcaster" args="-10 5 2 0 0 0 1 map uwb_anchor0" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_uwb1_broadcaster" args="0 5 2 0 0 0 1 map uwb_anchor1" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_uwb2_broadcaster" args="10 5 2 0 0 0 1 map uwb_anchor2" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_uwb3_broadcaster" args="-10 -5 2 0 0 0 1 map uwb_anchor3" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_uwb4_broadcaster" args="0 -5 2 0 0 0 1 map uwb_anchor4" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_uwb5_broadcaster" args="10 -5 2 0 0 0 1 map uwb_anchor5" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_uwb6_broadcaster" args="-5 0 2 0 0 0 1 map uwb_anchor6" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_uwb7_broadcaster" args="5 0 2 0 0 0 1 map uwb_anchor7" />
+
+
+  <node pkg="uwb_husky" type="sqrrange_leastsqr_localization.py" name="sqrrange_leastsqr_localization"/>
+  <node pkg="uwb_husky" type="gps_uwb_fusion.py" name="gps_uwb_fusion"/>
+  <node pkg="uwb_husky" type="nav_sat_fix_repub.py" name="nav_sat_fix_repub"/>
+  <node pkg="uwb_husky" type="error_estimation.py" name="error_estimation"/>
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find uwb_husky)/rviz/uwb.rviz" />
+  <node pkg="rqt_robot_steering" type="rqt_robot_steering" name="rqt_robot_steering"/>
+  <node pkg="rqt_plot" type="rqt_plot" name="rqt_plot" args = "/husky_error"/>
+  
+</launch>

@@ -1,0 +1,10 @@
+float64 uwb_x
+float64 uwb_y
+float64 uwb_odom_x
+float64 uwb_odom_y
+float64 gps_odom_x
+float64 gps_odom_y
+float64 uwb_imu_gps_x
+float64 uwb_imu_gps_y
+float64 gt_x
+float64 gt_y
