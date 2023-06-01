@@ -1,0 +1,19 @@
+float64 slam_pos_x
+float64 slam_pos_y
+float64 slam_pos_z
+float64 zed_pos_x
+float64 zed_pos_y
+float64 zed_pos_z
+float64 slam_imu_pos_x
+float64 slam_imu_pos_y
+float64 slam_imu_pos_z
+float64 gps_pos_x
+float64 gps_pos_y
+float64 gps_pos_z
+float64 gps_fused_pos_x
+float64 gps_fused_pos_y
+float64 gps_fused_pos_z
+float64 vicon_pos_x
+float64 vicon_pos_y
+float64 vicon_pos_z
+

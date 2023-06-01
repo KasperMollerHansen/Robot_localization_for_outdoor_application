@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <rosparam command="load" file="$(find sensor_fusion)/efk_fusion/sensor_fusion.yaml"/>
+
+        <remap from="/odometry/filtered" to="/orb_slam3/frame_pose_fused"/>
+        <node pkg="robot_localization" type="ekf_localization_node" name="ekf_slam_imu" clear_params="true"/>
+
+        <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" clear_params="true">
+            <remap from="imu/data" to="/mavros_node/imu/data"/>
+            <remap from="odometry/filtered" to="/orb_slam3/body_pose_fused"/>
+            <remap from="gps/fix" to="/mavros_node/global_position/global"/>
+        </node>
+
+        <remap from="/odometry/filtered" to="/odometry/gps_fused"/>
+        <node pkg="robot_localization" type="ekf_localization_node" name="ekf_gps_slam" clear_params="true"/>
+
+    
+<node pkg="tf2_ros" type="static_transform_publisher" name="camera_body_base_link_broadcaster" args="0 0 0 0 0 0 1 camera_body base_link" />
+<node pkg="tf2_ros" type="static_transform_publisher" name="base_link_zedm_imu_link_broadcaster" args="0 0 0 0 0 0 1 base_link zedm_imu_link" />
+<node pkg="tf2_ros" type="static_transform_publisher" name="base_link_orb_body_link_broadcaster" args="0 0 0 0 0 0 1 base_link orb_body_link" />
+  
+<node pkg="sensor_fusion" type="slam_error.py" name="slam_error"/>
+<node pkg="rqt_plot" type="rqt_plot" name="rqt_plot_pos" args = "/slam_error"/>
+
+
+  
+</launch>

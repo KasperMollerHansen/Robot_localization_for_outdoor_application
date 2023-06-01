@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<launch>
+
+<node pkg="sensor_fusion" type="slam_orientation.py" name="slam_orientation"/>
+
+<include file="$(find sensor_fusion)/launch/sensor_fusion.launch">
+</include>
+
+<node pkg="sensor_fusion" type="slam_body_trans.py" name="slam_body_trans"/>
+  
+<node pkg="tf2_ros" type="static_transform_publisher" name="map_vicon_map_broadcaster" args="0 0 0 0 0 0 1 map vicon_map" />
+  
+<node pkg="tf2_ros" type="static_transform_publisher" name="map_camera_body_broadcaster" args="0 0 0 0 0 0 1 map camera_body" />
+
+<node pkg="tf2_ros" type="static_transform_publisher" name="map_camera_offset_broadcaster" args="0 0 0 0 0 0 1 map camera_offset" />
+    
+<node pkg="rviz" type="rviz" name="rviz" args="-d $(find sensor_fusion)/rviz/cali_bag.rviz" />
+</launch>
