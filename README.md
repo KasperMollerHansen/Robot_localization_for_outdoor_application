@@ -1,2 +1,2 @@
 # Robot_localization_for_outdoor_application
-Bachelor Thesis Respository
+Bachelor's Thesis Respository
