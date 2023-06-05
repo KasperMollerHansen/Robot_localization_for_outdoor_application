@@ -1,7 +1,7 @@
 ### Setup for UWB simulation
 - place models folder in your home folder - This contains the model parameters
 - place UWB.world in folder usr/share/gazebo-11/worlds
-- 
+- copy necessary plugins from husky.urdf.xacro into your own file in folder opt/ros/noetic/share/husky_description/urdf
 
 ### Add model folder to Gazebo
 In  ~/.bashrc insert the following line
