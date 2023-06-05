@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="pi/2" value="1.5707963267948966" />
+    <arg name="optical_rotate" value="0 0 0 -$(arg pi/2) 0 -$(arg pi/2)" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="map_world_broadcaster" args="$(arg optical_rotate) map world" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="map_orb_slam_frame_broadcaster" args="0 0 0 0 0 0 1 map ORB_SLAM_frame" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="map_vicon_map_broadcaster" args="0 0 0 0 0 0 1 map vicon_map" />
+    
+
+    <arg name="cam_left_topic" default="/camera/left/image_raw"/>
+    <arg name="cam_right_topic" default="/camera/right/image_raw"/>
+    <arg name="orb_slam3_path" default="/home/jonathannielsen/Programs/ORB_SLAM3"/> <!-- CHANGE PATH TO ORB-SLAM3 PATH -->
+    <arg name="vocabulary_path" default="$(find localization)/config/ORBvoc.txt"/>
+    <arg name="config_file" default="$(find localization)/config/Zedm_rect.yaml"/>
+    <arg name="world_frame_id" default="world"/>
+    <arg name="cam_frame_id" default="ORB_SLAM_optical_frame"/>
+    <!-- Parameters for original ORB-SLAM3 -->
+    <remap from="$(arg cam_left_topic)"    to="/zedm/zed_node/left/image_rect_color"/>
+    <remap from="$(arg cam_right_topic)"   to="/zedm/zed_node/right/image_rect_color"/>
+
+    <!-- start orb slam stereo node -->
+    <node name="orb_slam3_stereo" pkg="orb_slam3_ros_wrapper" type="orb_slam3_ros_wrapper_stereo"  respawn="true" output="screen">
+            <!-- Parameters for original ORB-SLAM3 -->
+            <param name="voc_file"      type="string"   value="$(arg vocabulary_path)" />
+            <param name="config_file" type="string"   value="$(arg config_file)" />
+
+            <!-- Parameters for ROS -->
+            <param name="world_frame_id"    type="string"   value="$(arg world_frame_id)" />
+            <param name="cam_frame_id"      type="string"   value="$(arg cam_frame_id)" />
+    </node>
+
+
+    <node pkg="localization" type="orb_slam_frame_rotate.py" name="orb_slam_frame_rotate" output="screen"/>
+    <!-- Visualization - RViz-->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find localization)/rviz/monty.rviz" output="screen" />
+
+</launch>

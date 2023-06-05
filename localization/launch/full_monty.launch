@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+<include file="$(find zed_wrapper)/launch/zedm.launch"/>
+<include file="$(find localization)/launch/zedm_full_monty.launch"/>
+<include file="$(find vicon_bridge)/launch/vicon.launch"/>
+<node pkg="mavros" type="mavros_node" name="mavros_node" output="screen"/>
+<node pkg="localization" type="gps_trans.py" name="gps_trans" output="screen"/>
+<node pkg="localization" type="vicon_trans.py" name="vicon_trans" output="screen"/>
+</launch>
