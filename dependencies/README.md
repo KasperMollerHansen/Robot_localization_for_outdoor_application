@@ -15,5 +15,3 @@ https://github.com/stereolabs/zed-ros-wrapper
 https://github.com/thien94/orb_slam3_ros_wrapper
 
 https://github.com/ethz-asl/vicon_bridge
-
-Unzip the folders and unzip the folders inside orb_slam3_ros_wrapper
