@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="cam_left_topic" default="/cam0/image_raw"/>
+    <arg name="cam_right_topic" default="/cam1/image_raw"/>
+    <arg name="orb_slam3_path" default="$(env HOME)/your_path_to/ORB_SLAM3"/>
+    <arg name="vocabulary_path" default="$(arg orb_slam3_path)/Vocabulary/ORBvoc.txt"/>
+    <arg name="config_file" default="$(find orb_slam3_ros_wrapper)/config/your_config.yaml"/>
+    <arg name="world_frame_id" default="world"/>
+    <arg name="cam_frame_id" default="camera"/>
+
+    <!-- start orb slam stereo node -->
+    <node name="orb_slam3_stereo" pkg="orb_slam3_ros_wrapper" type="orb_slam3_ros_wrapper_stereo"  respawn="false" output="screen">
+            <!-- Parameters for original ORB-SLAM3 -->
+            <param name="voc_file"      type="string"   value="$(arg vocabulary_path)" />
+            <param name="config_file" type="string"   value="$(arg config_file)" />
+            <!-- extra param for custom ros topic -->
+            <remap from="$(arg cam_left_topic)"    to="/cam0/image_raw"/>
+            <remap from="$(arg cam_right_topic)"   to="/cam1/image_raw"/>
+            <!-- Parameters for ROS -->
+            <param name="world_frame_id"    type="string"   value="$(arg world_frame_id)" />
+            <param name="cam_frame_id"      type="string"   value="$(arg cam_frame_id)" />
+    </node>
+
+    <!-- Visualization - RViz-->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find orb_slam3_ros_wrapper)/config/orb_slam3_no_imu.rviz" output="screen" />
+
+    <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_server_orb_slam3" output="screen" ns="orb_slam3_ros" >
+        <param name="/target_frame_name" value="/world" />
+        <param name="/source_frame_name" value="/camera" />
+        <param name="/trajectory_update_rate" value="20.0" />
+        <param name="/trajectory_publish_rate" value="20.0" />
+    </node>
+
+</launch>

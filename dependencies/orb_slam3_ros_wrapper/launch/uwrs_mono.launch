@@ -1,0 +1,22 @@
+<launch>
+
+    <arg name="cam_topic" default="/airsim_node/RovSimple/front_right_custom/Scene"/>
+    <arg name="orb_slam3_path" default="$(env HOME)/dev/SLAM/ORB_SLAM3"/>
+    <arg name="vocabulary_path" default="$(arg orb_slam3_path)/Vocabulary/ORBvoc.txt"/>
+    <arg name="config_file" default="$(find orb_slam3_ros_wrapper)/config/UWRS.yaml"/>
+    <arg name="world_frame_id" default="world_orb"/>
+    <arg name="cam_frame_id" default="camera_orb"/>
+
+    <include file="$(find orb_slam3_ros_wrapper)/launch/mono.launch" pass_all_args="true"/>
+
+    <!-- Visualization - RViz-->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find orb_slam3_ros_wrapper)/config/uwrs_mono.rviz" output="screen" />
+
+    <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_server_orb_slam3" output="screen" ns="orb_slam3_ros" >
+        <param name="/target_frame_name" value="$(arg world_frame_id)" />
+        <param name="/source_frame_name" value="$(arg cam_frame_id)" />
+        <param name="/trajectory_update_rate" value="20.0" />
+        <param name="/trajectory_publish_rate" value="20.0" />
+    </node>
+
+</launch>

@@ -1,0 +1,14 @@
+<launch>
+
+    <arg name="cam_left_topic" default="/camera/left/image_raw"/>
+    <arg name="cam_right_topic" default="/camera/right/image_raw"/>
+    <arg name="orb_slam3_path" default="$(env HOME)/dev/SLAM/ORB_SLAM3"/>
+    <arg name="vocabulary_path" default="$(arg orb_slam3_path)/Vocabulary/ORBvoc.txt"/>
+    <arg name="config_file" default="$(find orb_slam3_ros_wrapper)/config/EuRoC.yaml"/>
+    <arg name="world_frame_id" default="world"/>
+    <arg name="cam_frame_id" default="camera"/>
+
+    <include file="$(find orb_slam3_ros_wrapper)/launch/stereo.launch" pass_all_args="true"/>
+
+
+</launch>

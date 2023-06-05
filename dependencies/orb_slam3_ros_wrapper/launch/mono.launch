@@ -1,0 +1,23 @@
+<launch>
+
+    <arg name="cam_topic" default="/cam0/image_raw"/>
+    <arg name="orb_slam3_path" default="$(env HOME)/your_path_to/ORB_SLAM3"/>
+    <arg name="vocabulary_path" default="$(arg orb_slam3_path)/Vocabulary/ORBvoc.txt"/>
+    <arg name="config_file" default="$(find orb_slam3_ros_wrapper)/config/your_config.yaml"/>
+    <arg name="world_frame_id" default="world_orb"/>
+    <arg name="cam_frame_id" default="camera_orb"/>
+
+    <!-- start orb slam monocular node -->
+    <node name="orb_slam3_mono" pkg="orb_slam3_ros_wrapper" type="orb_slam3_ros_wrapper_mono"  respawn="false" output="screen">
+            <!-- Parameters for original ORB-SLAM3 -->
+            <param name="voc_file"      type="string"   value="$(arg vocabulary_path)" />
+            <param name="config_file" type="string"   value="$(arg config_file)" />
+            <!-- extra param for custom ros topic -->
+            <param name="cam_topic"      type="string"   value="$(arg cam_topic)" />
+            <!-- Parameters for ROS -->
+            <param name="world_frame_id"    type="string"   value="$(arg world_frame_id)" />
+            <param name="cam_frame_id"      type="string"   value="$(arg cam_frame_id)" />
+    </node>
+
+
+</launch>

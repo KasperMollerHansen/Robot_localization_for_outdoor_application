@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="map_world_broadcaster" args="0 0 0 0 0 -1.5707964 map world" />
+
+    <arg name="cam_left_topic" default="/camera/left/image_raw"/>
+    <arg name="cam_right_topic" default="/camera/right/image_raw"/>
+    <arg name="orb_slam3_path" default="/home/jonathannielsen/Programs/ORB_SLAM3"/>
+    <arg name="vocabulary_path" default="/home/jonathannielsen/ORBvoc.txt"/>
+    <arg name="config_file" default="/home/jonathannielsen/Zedm_rect_imu.yaml"/>
+    <arg name="world_frame_id" default="world"/>
+    <arg name="cam_frame_id" default="ORB_SLAM3"/>
+    <!-- Parameters for original ORB-SLAM3 -->
+    <remap from="$(arg cam_left_topic)"    to="/zedm/zed_node/left/image_rect_color"/>
+    <remap from="$(arg cam_right_topic)"   to="/zedm/zed_node/right/image_rect_color"/>
+    <remap from="/imu"                      to="/zedm/zed_node/imu/data"/>
+
+    <!-- start orb slam stereo node -->
+    <node name="orb_slam3_stereo_inertial" pkg="orb_slam3_ros_wrapper" type="orb_slam3_ros_wrapper_stereo_inertial"  respawn="false" output="screen">
+            <!-- Parameters for original ORB-SLAM3 -->
+            <param name="voc_file"      type="string"   value="$(arg vocabulary_path)" />
+            <param name="config_file" type="string"   value="$(arg config_file)" />
+
+            <!-- Parameters for ROS -->
+            <param name="world_frame_id"    type="string"   value="$(arg world_frame_id)" />
+            <param name="cam_frame_id"      type="string"   value="$(arg cam_frame_id)" />
+    </node>
+
+    <!-- Visualization - RViz-->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find orb_slam3_ros_wrapper)/config/orb_slam3_with_imu.rviz" output="screen" />
+
+    <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_server_orb_slam3" output="screen" ns="orb_slam3_ros" >
+        <param name="/target_frame_name" value="/world" />
+        <param name="/source_frame_name" value="/camera" />
+        <param name="/trajectory_update_rate" value="20.0" />
+        <param name="/trajectory_publish_rate" value="20.0" />
+    </node>
+
+</launch>
