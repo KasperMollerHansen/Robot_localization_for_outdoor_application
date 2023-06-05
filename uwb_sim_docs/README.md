@@ -6,7 +6,7 @@
 ### Add model folder to Gazebo
 In  ~/.bashrc insert the following line
 
-export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/home/$USER$/models
+- export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/home/$USER$/models
 
 ### Simulation
 Run the simulation with the command:
