@@ -2,7 +2,7 @@
 place gazebo folder in your home folder - This contaion world and model parameters
 
 ### Add model folder to Gazebo
-In  ~/.bashrch insert the following line
+In  ~/.bashrc insert the following line
 
 export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/home/$USER$/models
 
