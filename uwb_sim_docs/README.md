@@ -1,5 +1,6 @@
 ### Setup for UWB simulation
-place gazebo folder in your home folder - This contaion world and model parameters
+- place gazebo folder in your home folder - This contaion world and model parameters
+- place 
 
 ### Add model folder to Gazebo
 In  ~/.bashrc insert the following line
