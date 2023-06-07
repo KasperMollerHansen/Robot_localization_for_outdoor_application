@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Hansen"
+  given-names: "Kasper Møller"
+- family-names: "Nielsen"
+  given-names: "Jonathan Boel"
+title: "Robot_localization_for_outdoor_application"
+version: 1.0.0
+date-released: 2023-06-07
+url: "https://github.com/KasperMollerHansen/Robot_localization_for_outdoor_application"
